@@ -1,0 +1,39 @@
+Package: MethylTraits
+Type: Package
+Title: Discover and Predict Traits from Whole-Genome
+        Methylation/Bisulfite Sequencing Methylation Data
+Version: 0.1.0
+Authors@R: person("Andy", "Madrid", email = "andyamadrid@tyckolab.com", role = c("aut", "cre"))
+Description: A toolkit for whole-genome bisulfite sequencing (WGBS) data stored as bsseq
+    objects, covering two complementary tasks. First, discovery and annotation of
+    regulatory methylation features: imprinting control regions (ICRs) and stochastic
+    epigenetic mutations (SEMs), including gene-level burden association testing and
+    GO/KEGG enrichment. Second, prediction of sample-level traits directly from
+    methylation: genetic sex (including sex-chromosome aneuploidies such as Turner,
+    Klinefelter, triple X, and XYY), self-reported race/ethnicity, PASC (long-COVID)
+    status (under develoment), and epigenetic age via a two-tier ensemble stack (a pure-WGBS model and a
+    hybrid model incorporating published clocks). Also includes a utility to emulate
+    450K/EPICv1/EPICv2 microarray data from WGBS, for cross-platform work and for
+    applying the full methylCIPHER clock panel and DunedinPACE.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: bsseq, GenomicRanges, IRanges, S4Vectors, GenomeInfoDb,
+        SummarizedExperiment, matrixStats, DelayedMatrixStats, methods,
+        stats, parallel
+Suggests: glmnet, Matrix, caret, randomForest, e1071, gbm, kernlab,
+        ranger, xgboost, methylCIPHER, minfi, DunedinPACE,
+        IlluminaHumanMethylationEPICanno.ilm10b5.hg38,
+        IlluminaHumanMethylationEPICv2anno.20a1.hg38,
+        BSgenome.Hsapiens.UCSC.hg38, Biostrings, AnnotationHub,
+        rtracklayer, ChIPseeker, GenomicFeatures,
+        TxDb.Hsapiens.UCSC.hg38.knownGene,
+        TxDb.Hsapiens.UCSC.hg19.knownGene, org.Hs.eg.db,
+        clusterProfiler, edgeR, MASS, knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 8.0.0
+Roxygen: list(markdown = TRUE)
+NeedsCompilation: no
+Packaged: 2026-09-03 16:45:02 UTC; madrid
+Author: Andy Madrid [aut, cre]
+Maintainer: Andy Madrid <andyamadrid@tyckolab.com>
