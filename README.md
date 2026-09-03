@@ -2,7 +2,7 @@
 MethylTraits: an R package to characterize and predict biological traits and features from whole genome bisulfite/methylation sequencing data
 
 ## Formerly known as oliveR (we're sad to see you go).
-### New recipe, same great taste!
+New recipe, same great taste!!!
 
 ## Welcome
 Hey, thanks for stopping on by!
