@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Andy Madrid" />
+
+<meta name="date" content="Last Edited: September 2, 2026" />
+
+<title>Getting Started with MethylTraits</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Getting Started with MethylTraits</h1>
+<h4 class="author">Andy Madrid</h4>
+<h4 class="date">Lasted Edited: September 2, 2026</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>MethylTraits works directly on <code>BSseq</code> objects (from the
+<a href="https://bioconductor.org/packages/bsseq/">bsseq</a> package)
+and covers two complementary jobs:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Discovery</strong> – find and annotate regulatory
+methylation features across a cohort: imprinting control regions
+(<code>findICRs</code>, <code>annotateICRs</code>) and stochastic
+epigenetic mutations (<code>findSEMs</code>, <code>annotateSEMs</code>),
+plus gene-level burden association testing (<code>testSEMBurden</code>,
+<code>testSEMGenes</code>) and GO/KEGG enrichment (<code>goSEMs</code>)
+on top of them.</li>
+<li><strong>Prediction</strong> – predict sample-level traits directly
+from WGBS methylation: genetic sex and sex-chromosome karyotype
+(<code>predictSex</code>), self-reported race/ethnicity
+(<code>predictRace</code>), PASC/long-COVID status
+(<code>predictPASC</code>), epigenetic age via a two-tier ensemble
+(<code>predictAge</code>), and 450K/EPIC array emulation for
+cross-platform work (<code>emulateArray</code>).</li>
+</ol>
+<p>A third function, <code>liftBuild</code>, doesn’t belong to either
+group: it’s a preprocessing utility that converts a <code>BSseq</code>
+object’s coordinates between hg19 and hg38, for when your data isn’t
+already on the build a given function expects.</p>
+<p>Nothing in MethylTraits requires you to train anything yourself:
+<code>predictSex</code> is purely coverage/copy-number based (no
+training data needed at all), and
+<code>predictRace</code>/<code>predictPASC</code>/<code>predictAge</code>/<code>emulateArray</code>
+ship with pre-trained models bundled inside the package
+(<code>system.file(&quot;models&quot;, ..., package = &quot;MethylTraits&quot;)</code>) –
+you only ever supply a <code>BSseq</code> object.</p>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Bioconductor dependencies used throughout the package</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(<span class="st">&quot;bsseq&quot;</span>, <span class="st">&quot;GenomicRanges&quot;</span>, <span class="st">&quot;IRanges&quot;</span>, <span class="st">&quot;S4Vectors&quot;</span>, <span class="st">&quot;GenomeInfoDb&quot;</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># from a locally built source tarball</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;MethylTraits_0.1.0.tar.gz&quot;</span>, <span class="at">repos =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="st">&quot;source&quot;</span>)</span></code></pre></div>
+<p>Most functions also need one or more packages listed under
+<code>Suggests</code> in <code>DESCRIPTION</code>
+(e.g. <code>glmnet</code> for
+<code>predictRace</code>/<code>predictPASC</code>,
+<code>xgboost</code>/<code>ranger</code> for <code>predictAge</code>,
+<code>minfi</code> for <code>emulateArray</code>) – install these as
+needed; each function will tell you at call time if something required
+is missing.</p>
+</div>
+<div id="example-data" class="section level2">
+<h2>Example data</h2>
+<p>The examples below use a small subset of samples from an internal
+WGBS validation cohort that was used throughout this package’s development to
+validate every function against real data. Substitute your own
+<code>BSseq</code> object anywhere <code>bs</code> appears below.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(bsseq))</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(MethylTraits)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">load</span>(data_path)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>bs <span class="ot">&lt;-</span> bs.pasc3</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">rm</span>(bs.pasc3)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># a 3-sample subset keeps the *prediction* examples fast; predictSex/predictRace/</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># predictPASC/predictAge/emulateArray all work identically on cohorts of any size</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>bs_small <span class="ot">&lt;-</span> bs[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">sampleNames</span>(bs_small) <span class="ot">&lt;-</span> <span class="fu">pData</span>(bs_small)<span class="sc">$</span><span class="st">&quot;Sample ID&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>bs_small</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; An object of type &#39;BSseq&#39; with</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;   28881154 methylation loci</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;   3 samples</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; has not been smoothed</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; All assays are in-memory</span></span></code></pre></div>
+</div>
+<div id="genome-build-conversion" class="section level2">
+<h2>Genome build conversion</h2>
+<p>Our toy bsseq object is already on hg38, the build every other
+function in this package expects by default. If your own data is aligned
+to hg19 instead (or you need to move hg38 data down to hg19, e.g. to
+match an older annotation resource), <code>liftBuild</code> converts a
+<code>BSseq</code> object’s coordinates between the two via a UCSC chain
+file (fetched once and cached locally through
+<code>AnnotationHub</code>). CpGs with no equivalent locus in the target
+build are dropped, and <code>genome(bs)</code> is updated to reflect the
+new build.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>bs_small_hg38 <span class="ot">&lt;-</span> bs_small[<span class="fu">as.character</span>(<span class="fu">seqnames</span>(bs_small)) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;chr21&quot;</span>, <span class="st">&quot;chr22&quot;</span>), ]</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>bs_hg19 <span class="ot">&lt;-</span> <span class="fu">liftBuild</span>(bs_small_hg38, <span class="at">current =</span> <span class="st">&quot;hg38&quot;</span>, <span class="at">new =</span> <span class="st">&quot;hg19&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [liftBuild]: will lift your bsseq object from hg38 to hg19</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; loading from cache</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; require(&quot;rtracklayer&quot;)</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [liftBuild]: lifting over resulted in a loss of 31264 CpGs</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">dim</span>(bs_small_hg38)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [1] 991522      3</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">dim</span>(bs_hg19)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] 960258      3</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">unique</span>(<span class="fu">genome</span>(bs_hg19))</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hg19&quot;</span></span></code></pre></div>
+</div>
+<div id="part-1-discovery" class="section level2">
+<h2>Part 1: Discovery</h2>
+<p>The discovery functions look for signal across CpGs genome-wide, so
+their runtime scales with how much of the genome you give them. To keep
+this vignette fast we restrict to chr21+chr22 (~990K of the ~28.9M CpGs)
+and use the full 68-sample cohort, since <code>findSEMs</code>’s outlier
+logic needs a reasonably large cohort to be meaningful; the same calls
+work genome-wide on your own data by simply passing the full
+<code>bs</code> object.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>bs_demo <span class="ot">&lt;-</span> bs[<span class="fu">as.character</span>(<span class="fu">seqnames</span>(bs)) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;chr21&quot;</span>, <span class="st">&quot;chr22&quot;</span>), ]</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">sampleNames</span>(bs_demo) <span class="ot">&lt;-</span> <span class="fu">pData</span>(bs_demo)<span class="sc">$</span><span class="st">&quot;Sample ID&quot;</span> <span class="co"># guarantee unique sample IDs</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>bs_demo</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; An object of type &#39;BSseq&#39; with</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   991522 methylation loci</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   68 samples</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; has not been smoothed</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; All assays are in-memory</span></span></code></pre></div>
+<div id="imprinting-control-regions-icrs" class="section level3">
+<h3>Imprinting control regions (ICRs)</h3>
+<p><code>findICRs</code> scans for windows of consecutive,
+densely-spaced CpGs that are consistently hemimethylated (or
+monoallelic, in gamete tissue) across the cohort – the signature of
+genomic imprinting – following the approach of Jima et al. 2022.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>icrs <span class="ot">&lt;-</span> <span class="fu">findICRs</span>(bs_demo, <span class="at">minCov =</span> <span class="dv">4</span>, <span class="at">minSample =</span> <span class="fl">0.5</span>, <span class="at">ncores =</span> <span class="dv">4</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [findICRs]: will look for ICRs from somatic using limits of [0.35, 0.65]</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; [findICRs]: requiring 5 consecutive CpGs spanning &lt;= 300bp</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [findICRs]: identifying ICRs now</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [findICRs]: cleaning up now</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; [findICRs]: found 6336 candidate ICRs</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">head</span>(icrs)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   seqnames   start     end width strand</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 1    chr21 5232904 5233131   228      *</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 2    chr21 7263845 7264273   429      *</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 3    chr21 7948246 7948411   166      *</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 4    chr21 7949418 7949674   257      *</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 5    chr21 7974461 7974729   269      *</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 6    chr21 7978617 7978890   274      *</span></span></code></pre></div>
+<p><code>annotateICRs</code> then assigns each candidate window to its
+nearest gene/feature and flags whether it overlaps a previously
+published ICR (Jima et al. 2022):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>icrs_annotated <span class="ot">&lt;-</span> <span class="fu">annotateICRs</span>(icrs, <span class="at">genomeBuild =</span> <span class="st">&quot;hg38&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; [annotateICRs]: loading hg38 gene annotation</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [annotateICRs]: annotating nearest gene / genomic feature for each candidate</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; Loading required package: org.Hs.eg.db</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; Loading required package: AnnotationDbi</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [annotateICRs]: checking overlap with known ICRs</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; [annotateICRs]: using bundled 14-locus Jima et al. 2022 Table 1 reference (not the full 1,488-region catalog -- see ?annotateICRs)</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; Warning in .merge_two_Seqinfo_objects(x, y): The 2 combined objects have no sequence levels in common. (Use</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;   suppressWarnings() to suppress this warning.)</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; [annotateICRs]: 0 of 6336 candidate ICRs overlap a known/reference ICR</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="fu">head</span>(icrs_annotated)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;   seqnames   start     end width       featureType</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; 1    chr21 5232904 5233131   228              Exon</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; 2    chr21 7263845 7264273   429 Distal Intergenic</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; 3    chr21 7948246 7948411   166 Distal Intergenic</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; 4    chr21 7949418 7949674   257 Distal Intergenic</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; 5    chr21 7974461 7974729   269 Distal Intergenic</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; 6    chr21 7978617 7978890   274 Distal Intergenic</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;                                                annotation  nearestGene</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; 1 Exon (ENST00000623753.1/ENST00000623753.1, exon 2 of 2) LOC102724200</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; 2                                       Distal Intergenic    LINC03105</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; 3                                       Distal Intergenic LOC102723475</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt; 4                                       Distal Intergenic LOC102723475</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt; 5                                       Distal Intergenic LOC102723475</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt; 6                                       Distal Intergenic LOC102723475</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt;   distanceToTSS overlapsKnownICR knownICR_name knownICR_source</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt; 1        -69209            FALSE          &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt; 2       -166386            FALSE          &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt; 3       -118614            FALSE          &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="co">#&gt; 4       -119786            FALSE          &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt; 5       -144829            FALSE          &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt; 6       -148985            FALSE          &lt;NA&gt;            &lt;NA&gt;</span></span></code></pre></div>
+</div>
+<div id="stochastic-epigenetic-mutations-sems" class="section level3">
+<h3>Stochastic epigenetic mutations (SEMs)</h3>
+<p><code>findSEMs</code> flags, per sample and per CpG, methylation
+values that are extreme outliers (Tukey-fence based) relative to the
+rest of the cohort at that CpG – these are stochastic epigenetic
+mutations. <code>saveIndSEMs = TRUE</code> additionally writes out the
+long-format per-event table (<code>sampleSEMs.rda</code>) that
+<code>annotateSEMs</code> needs.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>sample_sems <span class="ot">&lt;-</span> <span class="fu">findSEMs</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  bs_demo, <span class="at">minCov =</span> <span class="dv">10</span>, <span class="at">minSamples =</span> <span class="dv">50</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">saveIndSEMs =</span> <span class="cn">TRUE</span>, <span class="at">saveDir =</span> <span class="fu">tempdir</span>(), <span class="at">ncores =</span> <span class="dv">4</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: filtering low-coverage CpGs from further analysis</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: getting methylation estimates from CpGs</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: finding SEMs now . . .</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: splitting methylation data into chunks with up to 1e+05 CpGs each</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: a total of 7 chunks will be processed</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: Saving individual SEMs</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; [findSEMs]: bringing it all back home</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">head</span>(sample_sems)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;         Hyper_SEMs Hypo_SEMs Total_SEMs log10SEMs</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; 104-SIK        112      2367       2479  3.394277</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 105-SIK         76      2247       2323  3.366049</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 108-SIK         97      2162       2259  3.353916</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 111-SIK        103      2137       2240  3.350248</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 121-SIK        128      2692       2820  3.450249</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 125-SIK        129      3775       3904  3.591510</span></span></code></pre></div>
+<p><code>annotateSEMs</code> maps every SEM-carrying CpG to its nearest
+gene and aggregates into a genes x samples SEM-count matrix, ready for
+association testing:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;sampleSEMs.rda&quot;</span>)) <span class="co"># loads cpgSEMs</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>sem_annotated <span class="ot">&lt;-</span> <span class="fu">annotateSEMs</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">cpgSEMs =</span> cpgSEMs, <span class="at">sampleNames =</span> <span class="fu">sampleNames</span>(bs_demo), <span class="at">genomeBuild =</span> <span class="st">&quot;hg38&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">universeCpGs =</span> bs_demo</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; [annotateSEMs]: annotating 160666 SEM-carrying CpGs to nearest gene</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [annotateSEMs]: building background gene universe from 991522 tested CpGs</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; [annotateSEMs]: merged into 1689 blocks (gap &lt;= 1000bp) for annotation</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [annotateSEMs]: background universe contains 370 genes</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="fu">str</span>(sem_annotated, <span class="at">max.level =</span> <span class="dv">1</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;  $ geneMat      : int [1:1106, 1:68] 5 1 2 5 5 0 8 10 5 3 ...</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;  $ cpgGeneMap   :&#39;data.frame&#39;:   160666 obs. of  4 variables:</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;  $ universeGenes: chr [1:370] &quot;LOC102724200&quot; &quot;LINC01670&quot; &quot;LINC03104&quot; &quot;LOC124904990&quot; ...</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="fu">head</span>(sem_annotated<span class="sc">$</span>cpgGeneMap)</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;              cpg       gene       featureType distanceToTSS</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; 1 chr21:12968385 ANKRD30BP2 Distal Intergenic        -69775</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; 2 chr21:14272890     ABCC13          Promoter          -909</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; 3 chr21:14836297     ASMER1          Promoter         -2641</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; 4 chr21:16194977   MIR99AHG          Promoter            -7</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; 5 chr21:17361900  LINC01549 Distal Intergenic        -76921</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; 6 chr21:17425687  LINC01549 Distal Intergenic        -13134</span></span></code></pre></div>
+<p><code>testSEMBurden</code> asks whether total per-sample SEM burden
+differs across a grouping variable (e.g. diagnosis, PASC status, sex) –
+a simple omnibus check analogous to a “Global-EML” metric:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">pData</span>(bs_demo)<span class="sc">$</span>Sex</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>burden <span class="ot">&lt;-</span> <span class="fu">testSEMBurden</span>(sample_sems, <span class="at">group =</span> group)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [testSEMBurden]: running Kruskal-Wallis test of Total_SEMs ~ group</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>burden<span class="sc">$</span>test</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt;  Kruskal-Wallis rank sum test</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; data:  y by group</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Kruskal-Wallis chi-squared = 3.2354, df = 1, p-value = 0.07206</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>burden<span class="sc">$</span>summary</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;   group  n median     mean         sd</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; 1     F 51   2613 4577.000 11354.4475</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; 2     M 17   2442 2486.824   291.4042</span></span></code></pre></div>
+<p><code>testSEMGenes</code> tests each individual gene’s SEM count for
+association with the same grouping variable, modeled with
+<code>edgeR</code> (handles the sparse, over-dispersed count data
+properly and supports covariates/&gt;2 groups):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>gene_test <span class="ot">&lt;-</span> <span class="fu">testSEMGenes</span>(sem_annotated<span class="sc">$</span>geneMat, <span class="at">group =</span> group)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; [testSEMGenes]: testing 1076 of 1106 genes with SEMs in &gt;= 3 samples</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; [testSEMGenes]: running omnibus QL F-test across 2 groups</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">head</span>(gene_test<span class="sc">$</span>results)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt;       logFC    logCPM        F       PValue       FDR         gene meanSEM_F</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; 1  1.057343 11.689963 13.68634 0.0003503224 0.1949591      FAM230G 7.7450980</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 2  1.267218 10.145693 13.29569 0.0003666789 0.1949591       IL17RA 1.7843137</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 3 -2.418328  9.288072 12.36737 0.0005665821 0.1949591 LOC124905020 0.8431373</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 4 -1.771474 10.201934 11.92117 0.0007247549 0.1949591        FRGCA 3.5686275</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; 5 -1.535223 11.161588 11.51374 0.0009611371 0.2068367    KRTAP19-8 9.7843137</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; 6  1.658435  9.273238 10.49878 0.0015334916 0.2393589 LOC101927183 0.2156863</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;    meanSEM_M</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; 1 12.1176471</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; 2  2.9411765</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; 3  0.0000000</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; 4  0.5294118</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; 5  1.8235294</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; 6  0.5882353</span></span></code></pre></div>
+<p>Finally, <code>goSEMs</code> runs GO/KEGG over-representation on the
+genes that came out significant, against a proper background gene
+universe rather than the whole genome:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>sig_genes <span class="ot">&lt;-</span> gene_test<span class="sc">$</span>results<span class="sc">$</span>gene[gene_test<span class="sc">$</span>results<span class="sc">$</span>FDR <span class="sc">&lt;</span> <span class="fl">0.25</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(sig_genes) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  go_res <span class="ot">&lt;-</span> <span class="fu">goSEMs</span>(sig_genes, <span class="at">universe =</span> sem_annotated<span class="sc">$</span>universeGenes, <span class="at">runKEGG =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="fu">as.data.frame</span>(go_res<span class="sc">$</span>GO))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;No genes passed the demo FDR cutoff on this small chr21+chr22 subset -- &quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>          <span class="st">&quot;expected on a 2-chromosome slice; try the full genome on real data.&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>}</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; [goSEMs]: running GO (ALL) over-representation on 7 genes against a 370-gene background universe</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt;  [1] ONTOLOGY       ID             Description    GeneRatio      BgRatio       </span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt;  [6] RichFactor     FoldEnrichment zScore         pvalue         p.adjust      </span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; [11] qvalue         geneID         Count         </span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre></div>
+</div>
+</div>
+<div id="part-2-prediction" class="section level2">
+<h2>Part 2: Prediction</h2>
+<p>These functions predict one value per sample and run comfortably on a
+handful of samples, so we go back to the fast 3-sample
+<code>bs_small</code> object and use the full genome (needed for
+<code>predictSex</code>’s coverage signal, and for reliable
+coordinate/CpG matching against each predictor’s bundled panel).</p>
+<div id="genetic-sex-and-sex-chromosome-karyotype" class="section level3">
+<h3>Genetic sex and sex-chromosome karyotype</h3>
+<p><code>predictSex</code> needs no training data: it estimates each
+sample’s copy number on chrX/chrY relative to the autosomal baseline
+from raw coverage alone, and classifies against theoretical karyotype
+centroids (XX, XY, X0/Turner, XXY/Klinefelter, XXX/triple X, XYY).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>sex_res <span class="ot">&lt;-</span> <span class="fu">predictSex</span>(bs_small)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co">#&gt; [predictSex]: computing autosomal baseline coverage (median) for 3 samples</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; [predictSex]: computing chrX (non-PAR) coverage</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; [predictSex]: computing chrY (non-PAR) coverage</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; [predictSex]: classifying samples against reference karyotypes</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; [predictSex]: predicted sex breakdown:</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; F </span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 3</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>sex_res[, <span class="fu">c</span>(<span class="st">&quot;sample&quot;</span>, <span class="st">&quot;karyotype&quot;</span>, <span class="st">&quot;predictedSex&quot;</span>)]</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt;          sample karyotype predictedSex</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt; 104-SIK 104-SIK        XX            F</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt; 105-SIK 105-SIK        XX            F</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt; 108-SIK 108-SIK        XX            F</span></span></code></pre></div>
+<p>Passing <code>knownSex</code> for any samples with independently
+known sex both recalibrates the reference centroids to this assay’s own
+depth ratios and reports predicted-vs-known concordance – useful as a
+standalone sample-swap QC check even if you don’t care about sex
+prediction per se:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>sex_res_cal <span class="ot">&lt;-</span> <span class="fu">predictSex</span>(bs_small, <span class="at">knownSex =</span> <span class="fu">pData</span>(bs_small)<span class="sc">$</span>Sex)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; [predictSex]: computing autosomal baseline coverage (median) for 3 samples</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; [predictSex]: computing chrX (non-PAR) coverage</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; [predictSex]: computing chrY (non-PAR) coverage</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; [predictSex]: knownSex has fewer than minKnownPerGroup=3 labeled samples in one or both groups -- using uncalibrated theoretical centroids</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; [predictSex]: classifying samples against reference karyotypes</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; [predictSex]: predicted sex breakdown:</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; F </span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; 3</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; [predictSex]: concordance with knownSex: 3/3 (100%)</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="fu">attr</span>(sex_res_cal, <span class="st">&quot;calibrated&quot;</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+</div>
+<div id="raceethnicity" class="section level3">
+<h3>Race/ethnicity</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>race_res <span class="ot">&lt;-</span> <span class="fu">predictRace</span>(bs_small)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co">#&gt; [predictRace]: loading race prediction model</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt; [predictRace]: predictive CpGs: 1954; predicting: African_American, Asian, Hispanic, White</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; [predictRace]: auto-detecting coordinate convention (0-based vs 1-based)</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; [autoDetectCGOffset]: CG-match rate offset=0: 100.0%, offset=1: 0.0%</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; [predictRace]: matched 1950/1954 predictive CpGs by coordinate (0.2% missing)</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; [predictRace]: predicting</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; [predictRace]: prediction distribution:</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; White </span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt;     3</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>race_res[, <span class="fu">c</span>(<span class="st">&quot;sample&quot;</span>, <span class="st">&quot;predictedRace&quot;</span>, <span class="st">&quot;maxProb&quot;</span>)]</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt;    sample predictedRace   maxProb</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt; 1 104-SIK         White 0.9976653</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; 2 105-SIK         White 0.9978919</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co">#&gt; 3 108-SIK         White 0.9929174</span></span></code></pre></div>
+</div>
+<div id="pasc-long-covid-status" class="section level3">
+<h3>PASC (long-COVID) status (extremely experimental - best to not even use it)</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>pasc_res <span class="ot">&lt;-</span> <span class="fu">predictPASC</span>(bs_small)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: loading PASC model bundle</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: selected CpG panel: 7336 (top-K subset used by RF/SVM/GBM: 2000)</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: auto-detecting coordinate convention (0-based vs 1-based) against hg38</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; [autoDetectCGOffset]: CG-match rate offset=0: 100.0%, offset=1: 0.0%</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: matched 7332/7335 panel CpGs by hg38 coordinate (100.0%)</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: predicting PASC status</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: selected-panel coverage: 7335/7336 (0.0% filled from training means)</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: top-K panel coverage: 1999/2000 (0.0% filled from training means)</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: prediction distribution (elastic net, primary model, threshold=0.5):</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; non-PASC </span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt;        3</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#&gt; [predictPASC]: *** CALIBRATION CAVEAT: the 0.5 threshold is validated only within the training platform (WGBS-emulated EPIC data). On real microarray/bsseq input, treat predictedStatus as exploratory -- rely on relative ranking of prob_enet across your samples rather than the absolute cutoff. ***</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>pasc_res[, <span class="fu">c</span>(<span class="st">&quot;sample&quot;</span>, <span class="st">&quot;prob_enet&quot;</span>, <span class="st">&quot;predictedStatus&quot;</span>)]</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co">#&gt;    sample  prob_enet predictedStatus</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co">#&gt; 1 104-SIK 0.01967884        non-PASC</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co">#&gt; 2 105-SIK 0.03022404        non-PASC</span></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="co">#&gt; 3 108-SIK 0.05493568        non-PASC</span></span></code></pre></div>
+<p><code>predictPASC</code> prints a calibration caveat at runtime: its
+0.5 threshold was only validated on the training platform (WGBS-emulated
+EPIC data), so on real input <code>prob_enet</code>’s relative ranking
+across your own samples is more trustworthy than the absolute
+<code>predictedStatus</code> cutoff.</p>
+</div>
+<div id="epigenetic-age" class="section level3">
+<h3>Epigenetic age</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>age_res <span class="ot">&lt;-</span> <span class="fu">predictAge</span>(bs_small)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt; [predictAge]: loading model artifacts</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt; [predictAge]: OK -- 1500000 own-panel CpGs, 1583 clock probes</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt; [predictAge]: detecting coordinate convention (0-based vs 1-based)</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt;   offset +0 : 299974 / 300000 matched (100.0%)</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt;   offset -1 : 0 / 300000 matched (0.0%)</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt;   offset +1 : 0 / 300000 matched (0.0%)</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; [predictAge]: no coordinate correction needed (offset 0 already matches best)</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt; [predictAge]: extracting beta values (&gt;=5x coverage)</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt;   own panel   (1500000 CpGs):   matched 100.0%, observed 100.0%</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt;   clock probes (1583 probes): matched 99.7%, observed 96.7%</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt; [predictAge]: predicting age</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; [predictAge]: summary (Tier 1 PRIMARY = wgbs_only_stack; Tier 2 secondary/applied = hybrid_stack)</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt;   sample wgbs_only_stack hybrid_stack</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt;  104-SIK           54.72        57.03</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt;  105-SIK           62.02        62.09</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#&gt;  108-SIK           52.28        49.02</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>age_res[, <span class="fu">c</span>(<span class="st">&quot;sample&quot;</span>, <span class="st">&quot;wgbs_only_stack&quot;</span>, <span class="st">&quot;hybrid_stack&quot;</span>)]</span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#&gt;    sample wgbs_only_stack hybrid_stack</span></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#&gt; 1 104-SIK        54.71929     57.03439</span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#&gt; 2 105-SIK        62.01634     62.08644</span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="co">#&gt; 3 108-SIK        52.27586     49.01865</span></span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="fu">pData</span>(bs_small)<span class="sc">$</span>Age <span class="co"># known chronological ages, for comparison</span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="co">#&gt; [1] 63 56 49</span></span></code></pre></div>
+<p><code>wgbs_only_stack</code> (Tier 1) is the primary estimate, built
+purely from WGBS data; <code>hybrid_stack</code> (Tier 2) additionally
+incorporates published clocks and is provided as a secondary, applied
+estimate.</p>
+</div>
+<div id="array-emulation" class="section level3">
+<h3>Array emulation</h3>
+<p><code>emulateArray</code> converts WGBS CpGs to their corresponding
+probe-level beta values on a 450K/EPICv1/EPICv2 array layout, for
+cross-platform comparisons or to run array-native tools (methylCIPHER
+clocks, DunedinPACE) that expect array input.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># warning = FALSE: methylCIPHER&#39;s own clock formulas emit benign vector-</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co"># recycling warnings on small inputs; harmless, just noisy in a vignette</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>arr <span class="ot">&lt;-</span> <span class="fu">emulateArray</span>(bs_small, <span class="at">array =</span> <span class="st">&quot;EPICv1&quot;</span>, <span class="at">runClocks =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt; Setting options(&#39;download.file.method.GEOquery&#39;=&#39;auto&#39;)</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt; Setting options(&#39;GEOquery.inmemory.gpl&#39;=FALSE)</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: building EPICv1 hg38 probe panel</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt; EPICv1 probe panel size: 865821</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: coordinate check: 861897/865821 probes match as-is; 18/865821 match with a +1 shift</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: bsseq object appears standard 1-based; using positions as-is</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: matched 861897 / 865821 EPICv1 probes to CpGs in the bsseq object (1-based)</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: extracting beta values (min coverage = 5)</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: emulated EPICv1 array: 861897 CpGs x 3 samples. Fraction NA (Cov&lt;5): 2.44%</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: running DunedinPACE</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: DunedinPACE computed for 3/3 samples</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: running all methylCIPHER clocks (please remember to cite the individual clocks you use; see methylCIPHER&#39;s README.md)</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;DunedinPoAm38&#39;</span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:DunedinPACE&#39;:</span></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;     PoAmProjector, getRequiredProbes</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt; [emulateArray]: appending pData() (6 columns) to age estimates</span></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="fu">dim</span>(arr<span class="sc">$</span>beta)</span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co">#&gt; [1] 861897      3</span></span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>arr<span class="sc">$</span>ageEstimates[, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt;    sample   Hannum Horvath1 Horvath2 PhenoAge     EpiTOC</span></span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#&gt; 1 104-SIK 67.91040 43.26682 58.64887 36.70774 0.03383348</span></span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co">#&gt; 2 105-SIK 54.11703 52.47768 63.31245 35.11695 0.02427029</span></span>
+<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a><span class="co">#&gt; 3 108-SIK 46.79036 65.40056 41.67954 32.68960 0.02627538</span></span></code></pre></div>
+</div>
+</div>
+<div id="session-info" class="section level2">
+<h2>Session info</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt; R version 4.4.2 (2024-10-31)</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; Running under: Ubuntu 24.04.2 LTS</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=C              </span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a><span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a><span class="co">#&gt; time zone: America/Chicago</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a><span class="co">#&gt; tzcode source: system (glibc)</span></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a><span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a><span class="co">#&gt; [8] methods   base     </span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a><span class="co">#&gt;  [1] DunedinPoAm38_0.1.0                                </span></span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="co">#&gt;  [2] DunedinPACE_0.99.0                                 </span></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co">#&gt;  [3] IlluminaHumanMethylationEPICanno.ilm10b5.hg38_0.0.1</span></span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="co">#&gt;  [4] minfi_1.50.0                                       </span></span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a><span class="co">#&gt;  [5] bumphunter_1.46.0                                  </span></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a><span class="co">#&gt;  [6] locfit_1.5-9.12                                    </span></span>
+<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a><span class="co">#&gt;  [7] iterators_1.0.14                                   </span></span>
+<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a><span class="co">#&gt;  [8] foreach_1.5.2                                      </span></span>
+<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a><span class="co">#&gt;  [9] Biostrings_2.72.1                                  </span></span>
+<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a><span class="co">#&gt; [10] XVector_0.44.0                                     </span></span>
+<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a><span class="co">#&gt; [11] methylCIPHER_0.2.0                                 </span></span>
+<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a><span class="co">#&gt; [12] xgboost_3.2.1.1                                    </span></span>
+<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a><span class="co">#&gt; [13] ranger_0.18.0                                      </span></span>
+<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a><span class="co">#&gt; [14] kernlab_0.9-33                                     </span></span>
+<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a><span class="co">#&gt; [15] gbm_2.2.3                                          </span></span>
+<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a><span class="co">#&gt; [16] e1071_1.7-17                                       </span></span>
+<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a><span class="co">#&gt; [17] randomForest_4.7-1.2                               </span></span>
+<span id="cb18-43"><a href="#cb18-43" tabindex="-1"></a><span class="co">#&gt; [18] caret_7.0-1                                        </span></span>
+<span id="cb18-44"><a href="#cb18-44" tabindex="-1"></a><span class="co">#&gt; [19] lattice_0.22-5                                     </span></span>
+<span id="cb18-45"><a href="#cb18-45" tabindex="-1"></a><span class="co">#&gt; [20] ggplot2_4.0.3                                      </span></span>
+<span id="cb18-46"><a href="#cb18-46" tabindex="-1"></a><span class="co">#&gt; [21] glmnet_5.0                                         </span></span>
+<span id="cb18-47"><a href="#cb18-47" tabindex="-1"></a><span class="co">#&gt; [22] Matrix_1.6-5                                       </span></span>
+<span id="cb18-48"><a href="#cb18-48" tabindex="-1"></a><span class="co">#&gt; [23] org.Hs.eg.db_3.19.1                                </span></span>
+<span id="cb18-49"><a href="#cb18-49" tabindex="-1"></a><span class="co">#&gt; [24] AnnotationDbi_1.66.0                               </span></span>
+<span id="cb18-50"><a href="#cb18-50" tabindex="-1"></a><span class="co">#&gt; [25] rtracklayer_1.66.0                                 </span></span>
+<span id="cb18-51"><a href="#cb18-51" tabindex="-1"></a><span class="co">#&gt; [26] MethylTraits_0.1.0                                 </span></span>
+<span id="cb18-52"><a href="#cb18-52" tabindex="-1"></a><span class="co">#&gt; [27] bsseq_1.40.0                                       </span></span>
+<span id="cb18-53"><a href="#cb18-53" tabindex="-1"></a><span class="co">#&gt; [28] SummarizedExperiment_1.34.0                        </span></span>
+<span id="cb18-54"><a href="#cb18-54" tabindex="-1"></a><span class="co">#&gt; [29] Biobase_2.64.0                                     </span></span>
+<span id="cb18-55"><a href="#cb18-55" tabindex="-1"></a><span class="co">#&gt; [30] MatrixGenerics_1.16.0                              </span></span>
+<span id="cb18-56"><a href="#cb18-56" tabindex="-1"></a><span class="co">#&gt; [31] matrixStats_1.5.0                                  </span></span>
+<span id="cb18-57"><a href="#cb18-57" tabindex="-1"></a><span class="co">#&gt; [32] GenomicRanges_1.56.2                               </span></span>
+<span id="cb18-58"><a href="#cb18-58" tabindex="-1"></a><span class="co">#&gt; [33] GenomeInfoDb_1.40.1                                </span></span>
+<span id="cb18-59"><a href="#cb18-59" tabindex="-1"></a><span class="co">#&gt; [34] IRanges_2.38.1                                     </span></span>
+<span id="cb18-60"><a href="#cb18-60" tabindex="-1"></a><span class="co">#&gt; [35] S4Vectors_0.42.1                                   </span></span>
+<span id="cb18-61"><a href="#cb18-61" tabindex="-1"></a><span class="co">#&gt; [36] BiocGenerics_0.50.0                                </span></span>
+<span id="cb18-62"><a href="#cb18-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-63"><a href="#cb18-63" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb18-64"><a href="#cb18-64" tabindex="-1"></a><span class="co">#&gt;   [1] fs_1.6.6                                </span></span>
+<span id="cb18-65"><a href="#cb18-65" tabindex="-1"></a><span class="co">#&gt;   [2] bitops_1.0-9                            </span></span>
+<span id="cb18-66"><a href="#cb18-66" tabindex="-1"></a><span class="co">#&gt;   [3] enrichplot_1.24.4                       </span></span>
+<span id="cb18-67"><a href="#cb18-67" tabindex="-1"></a><span class="co">#&gt;   [4] lubridate_1.9.5                         </span></span>
+<span id="cb18-68"><a href="#cb18-68" tabindex="-1"></a><span class="co">#&gt;   [5] httr_1.4.8                              </span></span>
+<span id="cb18-69"><a href="#cb18-69" tabindex="-1"></a><span class="co">#&gt;   [6] RColorBrewer_1.1-3                      </span></span>
+<span id="cb18-70"><a href="#cb18-70" tabindex="-1"></a><span class="co">#&gt;   [7] doRNG_1.8.6.3                           </span></span>
+<span id="cb18-71"><a href="#cb18-71" tabindex="-1"></a><span class="co">#&gt;   [8] tools_4.4.2                             </span></span>
+<span id="cb18-72"><a href="#cb18-72" tabindex="-1"></a><span class="co">#&gt;   [9] R6_2.6.1                                </span></span>
+<span id="cb18-73"><a href="#cb18-73" tabindex="-1"></a><span class="co">#&gt;  [10] HDF5Array_1.32.1                        </span></span>
+<span id="cb18-74"><a href="#cb18-74" tabindex="-1"></a><span class="co">#&gt;  [11] lazyeval_0.2.3                          </span></span>
+<span id="cb18-75"><a href="#cb18-75" tabindex="-1"></a><span class="co">#&gt;  [12] rhdf5filters_1.16.0                     </span></span>
+<span id="cb18-76"><a href="#cb18-76" tabindex="-1"></a><span class="co">#&gt;  [13] permute_0.9-10                          </span></span>
+<span id="cb18-77"><a href="#cb18-77" tabindex="-1"></a><span class="co">#&gt;  [14] withr_3.0.2                             </span></span>
+<span id="cb18-78"><a href="#cb18-78" tabindex="-1"></a><span class="co">#&gt;  [15] gridExtra_2.3                           </span></span>
+<span id="cb18-79"><a href="#cb18-79" tabindex="-1"></a><span class="co">#&gt;  [16] base64_2.0.2                            </span></span>
+<span id="cb18-80"><a href="#cb18-80" tabindex="-1"></a><span class="co">#&gt;  [17] preprocessCore_1.66.0                   </span></span>
+<span id="cb18-81"><a href="#cb18-81" tabindex="-1"></a><span class="co">#&gt;  [18] cli_3.6.6                               </span></span>
+<span id="cb18-82"><a href="#cb18-82" tabindex="-1"></a><span class="co">#&gt;  [19] scatterpie_0.2.6                        </span></span>
+<span id="cb18-83"><a href="#cb18-83" tabindex="-1"></a><span class="co">#&gt;  [20] sass_0.4.10                             </span></span>
+<span id="cb18-84"><a href="#cb18-84" tabindex="-1"></a><span class="co">#&gt;  [21] S7_0.2.2                                </span></span>
+<span id="cb18-85"><a href="#cb18-85" tabindex="-1"></a><span class="co">#&gt;  [22] readr_2.2.0                             </span></span>
+<span id="cb18-86"><a href="#cb18-86" tabindex="-1"></a><span class="co">#&gt;  [23] genefilter_1.86.0                       </span></span>
+<span id="cb18-87"><a href="#cb18-87" tabindex="-1"></a><span class="co">#&gt;  [24] askpass_1.2.1                           </span></span>
+<span id="cb18-88"><a href="#cb18-88" tabindex="-1"></a><span class="co">#&gt;  [25] proxy_0.4-29                            </span></span>
+<span id="cb18-89"><a href="#cb18-89" tabindex="-1"></a><span class="co">#&gt;  [26] Rsamtools_2.20.0                        </span></span>
+<span id="cb18-90"><a href="#cb18-90" tabindex="-1"></a><span class="co">#&gt;  [27] systemfonts_1.3.2                       </span></span>
+<span id="cb18-91"><a href="#cb18-91" tabindex="-1"></a><span class="co">#&gt;  [28] yulab.utils_0.2.4                       </span></span>
+<span id="cb18-92"><a href="#cb18-92" tabindex="-1"></a><span class="co">#&gt;  [29] gson_0.1.0                              </span></span>
+<span id="cb18-93"><a href="#cb18-93" tabindex="-1"></a><span class="co">#&gt;  [30] illuminaio_0.46.0                       </span></span>
+<span id="cb18-94"><a href="#cb18-94" tabindex="-1"></a><span class="co">#&gt;  [31] siggenes_1.78.0                         </span></span>
+<span id="cb18-95"><a href="#cb18-95" tabindex="-1"></a><span class="co">#&gt;  [32] DOSE_3.30.5                             </span></span>
+<span id="cb18-96"><a href="#cb18-96" tabindex="-1"></a><span class="co">#&gt;  [33] R.utils_2.13.0                          </span></span>
+<span id="cb18-97"><a href="#cb18-97" tabindex="-1"></a><span class="co">#&gt;  [34] dichromat_2.0-0.1                       </span></span>
+<span id="cb18-98"><a href="#cb18-98" tabindex="-1"></a><span class="co">#&gt;  [35] scrime_1.3.7                            </span></span>
+<span id="cb18-99"><a href="#cb18-99" tabindex="-1"></a><span class="co">#&gt;  [36] parallelly_1.47.0                       </span></span>
+<span id="cb18-100"><a href="#cb18-100" tabindex="-1"></a><span class="co">#&gt;  [37] plotrix_3.8-14                          </span></span>
+<span id="cb18-101"><a href="#cb18-101" tabindex="-1"></a><span class="co">#&gt;  [38] BSgenome_1.72.0                         </span></span>
+<span id="cb18-102"><a href="#cb18-102" tabindex="-1"></a><span class="co">#&gt;  [39] limma_3.60.6                            </span></span>
+<span id="cb18-103"><a href="#cb18-103" tabindex="-1"></a><span class="co">#&gt;  [40] RSQLite_3.53.1                          </span></span>
+<span id="cb18-104"><a href="#cb18-104" tabindex="-1"></a><span class="co">#&gt;  [41] generics_0.1.4                          </span></span>
+<span id="cb18-105"><a href="#cb18-105" tabindex="-1"></a><span class="co">#&gt;  [42] gridGraphics_0.5-1                      </span></span>
+<span id="cb18-106"><a href="#cb18-106" tabindex="-1"></a><span class="co">#&gt;  [43] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2 </span></span>
+<span id="cb18-107"><a href="#cb18-107" tabindex="-1"></a><span class="co">#&gt;  [44] shape_1.4.6.1                           </span></span>
+<span id="cb18-108"><a href="#cb18-108" tabindex="-1"></a><span class="co">#&gt;  [45] BiocIO_1.14.0                           </span></span>
+<span id="cb18-109"><a href="#cb18-109" tabindex="-1"></a><span class="co">#&gt;  [46] gtools_3.9.5                            </span></span>
+<span id="cb18-110"><a href="#cb18-110" tabindex="-1"></a><span class="co">#&gt;  [47] dplyr_1.2.1                             </span></span>
+<span id="cb18-111"><a href="#cb18-111" tabindex="-1"></a><span class="co">#&gt;  [48] GO.db_3.19.1                            </span></span>
+<span id="cb18-112"><a href="#cb18-112" tabindex="-1"></a><span class="co">#&gt;  [49] abind_1.4-8                             </span></span>
+<span id="cb18-113"><a href="#cb18-113" tabindex="-1"></a><span class="co">#&gt;  [50] R.methodsS3_1.8.2                       </span></span>
+<span id="cb18-114"><a href="#cb18-114" tabindex="-1"></a><span class="co">#&gt;  [51] lifecycle_1.0.5                         </span></span>
+<span id="cb18-115"><a href="#cb18-115" tabindex="-1"></a><span class="co">#&gt;  [52] yaml_2.3.12                             </span></span>
+<span id="cb18-116"><a href="#cb18-116" tabindex="-1"></a><span class="co">#&gt;  [53] edgeR_4.2.2                             </span></span>
+<span id="cb18-117"><a href="#cb18-117" tabindex="-1"></a><span class="co">#&gt;  [54] gplots_3.3.0                            </span></span>
+<span id="cb18-118"><a href="#cb18-118" tabindex="-1"></a><span class="co">#&gt;  [55] rhdf5_2.48.0                            </span></span>
+<span id="cb18-119"><a href="#cb18-119" tabindex="-1"></a><span class="co">#&gt;  [56] recipes_1.3.3                           </span></span>
+<span id="cb18-120"><a href="#cb18-120" tabindex="-1"></a><span class="co">#&gt;  [57] qvalue_2.36.0                           </span></span>
+<span id="cb18-121"><a href="#cb18-121" tabindex="-1"></a><span class="co">#&gt;  [58] SparseArray_1.4.8                       </span></span>
+<span id="cb18-122"><a href="#cb18-122" tabindex="-1"></a><span class="co">#&gt;  [59] BiocFileCache_2.12.0                    </span></span>
+<span id="cb18-123"><a href="#cb18-123" tabindex="-1"></a><span class="co">#&gt;  [60] grid_4.4.2                              </span></span>
+<span id="cb18-124"><a href="#cb18-124" tabindex="-1"></a><span class="co">#&gt;  [61] blob_1.3.0                              </span></span>
+<span id="cb18-125"><a href="#cb18-125" tabindex="-1"></a><span class="co">#&gt;  [62] crayon_1.5.3                            </span></span>
+<span id="cb18-126"><a href="#cb18-126" tabindex="-1"></a><span class="co">#&gt;  [63] cowplot_1.2.0                           </span></span>
+<span id="cb18-127"><a href="#cb18-127" tabindex="-1"></a><span class="co">#&gt;  [64] annotate_1.82.0                         </span></span>
+<span id="cb18-128"><a href="#cb18-128" tabindex="-1"></a><span class="co">#&gt;  [65] GenomicFeatures_1.56.0                  </span></span>
+<span id="cb18-129"><a href="#cb18-129" tabindex="-1"></a><span class="co">#&gt;  [66] KEGGREST_1.44.1                         </span></span>
+<span id="cb18-130"><a href="#cb18-130" tabindex="-1"></a><span class="co">#&gt;  [67] beanplot_1.3.1                          </span></span>
+<span id="cb18-131"><a href="#cb18-131" tabindex="-1"></a><span class="co">#&gt;  [68] pillar_1.11.1                           </span></span>
+<span id="cb18-132"><a href="#cb18-132" tabindex="-1"></a><span class="co">#&gt;  [69] knitr_1.51                              </span></span>
+<span id="cb18-133"><a href="#cb18-133" tabindex="-1"></a><span class="co">#&gt;  [70] fgsea_1.30.0                            </span></span>
+<span id="cb18-134"><a href="#cb18-134" tabindex="-1"></a><span class="co">#&gt;  [71] rjson_0.2.23                            </span></span>
+<span id="cb18-135"><a href="#cb18-135" tabindex="-1"></a><span class="co">#&gt;  [72] boot_1.3-30                             </span></span>
+<span id="cb18-136"><a href="#cb18-136" tabindex="-1"></a><span class="co">#&gt;  [73] future.apply_1.20.2                     </span></span>
+<span id="cb18-137"><a href="#cb18-137" tabindex="-1"></a><span class="co">#&gt;  [74] codetools_0.2-19                        </span></span>
+<span id="cb18-138"><a href="#cb18-138" tabindex="-1"></a><span class="co">#&gt;  [75] fastmatch_1.1-8                         </span></span>
+<span id="cb18-139"><a href="#cb18-139" tabindex="-1"></a><span class="co">#&gt;  [76] glue_1.8.1                              </span></span>
+<span id="cb18-140"><a href="#cb18-140" tabindex="-1"></a><span class="co">#&gt;  [77] ggiraph_0.9.6                           </span></span>
+<span id="cb18-141"><a href="#cb18-141" tabindex="-1"></a><span class="co">#&gt;  [78] ggfun_0.2.0                             </span></span>
+<span id="cb18-142"><a href="#cb18-142" tabindex="-1"></a><span class="co">#&gt;  [79] fontLiberation_0.1.0                    </span></span>
+<span id="cb18-143"><a href="#cb18-143" tabindex="-1"></a><span class="co">#&gt;  [80] data.table_1.18.4                       </span></span>
+<span id="cb18-144"><a href="#cb18-144" tabindex="-1"></a><span class="co">#&gt;  [81] vctrs_0.7.3                             </span></span>
+<span id="cb18-145"><a href="#cb18-145" tabindex="-1"></a><span class="co">#&gt;  [82] png_0.1-9                               </span></span>
+<span id="cb18-146"><a href="#cb18-146" tabindex="-1"></a><span class="co">#&gt;  [83] treeio_1.28.0                           </span></span>
+<span id="cb18-147"><a href="#cb18-147" tabindex="-1"></a><span class="co">#&gt;  [84] gtable_0.3.6                            </span></span>
+<span id="cb18-148"><a href="#cb18-148" tabindex="-1"></a><span class="co">#&gt;  [85] cachem_1.1.0                            </span></span>
+<span id="cb18-149"><a href="#cb18-149" tabindex="-1"></a><span class="co">#&gt;  [86] gower_1.0.2                             </span></span>
+<span id="cb18-150"><a href="#cb18-150" tabindex="-1"></a><span class="co">#&gt;  [87] xfun_0.57                               </span></span>
+<span id="cb18-151"><a href="#cb18-151" tabindex="-1"></a><span class="co">#&gt;  [88] S4Arrays_1.4.1                          </span></span>
+<span id="cb18-152"><a href="#cb18-152" tabindex="-1"></a><span class="co">#&gt;  [89] mime_0.13                               </span></span>
+<span id="cb18-153"><a href="#cb18-153" tabindex="-1"></a><span class="co">#&gt;  [90] prodlim_2026.03.11                      </span></span>
+<span id="cb18-154"><a href="#cb18-154" tabindex="-1"></a><span class="co">#&gt;  [91] tidygraph_1.3.1                         </span></span>
+<span id="cb18-155"><a href="#cb18-155" tabindex="-1"></a><span class="co">#&gt;  [92] survival_3.5-8                          </span></span>
+<span id="cb18-156"><a href="#cb18-156" tabindex="-1"></a><span class="co">#&gt;  [93] timeDate_4052.112                       </span></span>
+<span id="cb18-157"><a href="#cb18-157" tabindex="-1"></a><span class="co">#&gt;  [94] hardhat_1.4.3                           </span></span>
+<span id="cb18-158"><a href="#cb18-158" tabindex="-1"></a><span class="co">#&gt;  [95] lava_1.9.1                              </span></span>
+<span id="cb18-159"><a href="#cb18-159" tabindex="-1"></a><span class="co">#&gt;  [96] statmod_1.5.2                           </span></span>
+<span id="cb18-160"><a href="#cb18-160" tabindex="-1"></a><span class="co">#&gt;  [97] ipred_0.9-15                            </span></span>
+<span id="cb18-161"><a href="#cb18-161" tabindex="-1"></a><span class="co">#&gt;  [98] nlme_3.1-164                            </span></span>
+<span id="cb18-162"><a href="#cb18-162" tabindex="-1"></a><span class="co">#&gt;  [99] ggtree_3.12.0                           </span></span>
+<span id="cb18-163"><a href="#cb18-163" tabindex="-1"></a><span class="co">#&gt; [100] bit64_4.8.2                             </span></span>
+<span id="cb18-164"><a href="#cb18-164" tabindex="-1"></a><span class="co">#&gt; [101] fontquiver_0.2.1                        </span></span>
+<span id="cb18-165"><a href="#cb18-165" tabindex="-1"></a><span class="co">#&gt; [102] filelock_1.0.3                          </span></span>
+<span id="cb18-166"><a href="#cb18-166" tabindex="-1"></a><span class="co">#&gt; [103] nor1mix_1.3-3                           </span></span>
+<span id="cb18-167"><a href="#cb18-167" tabindex="-1"></a><span class="co">#&gt; [104] bslib_0.11.0                            </span></span>
+<span id="cb18-168"><a href="#cb18-168" tabindex="-1"></a><span class="co">#&gt; [105] KernSmooth_2.23-22                      </span></span>
+<span id="cb18-169"><a href="#cb18-169" tabindex="-1"></a><span class="co">#&gt; [106] otel_0.2.0                              </span></span>
+<span id="cb18-170"><a href="#cb18-170" tabindex="-1"></a><span class="co">#&gt; [107] rpart_4.1.23                            </span></span>
+<span id="cb18-171"><a href="#cb18-171" tabindex="-1"></a><span class="co">#&gt; [108] colorspace_2.1-2                        </span></span>
+<span id="cb18-172"><a href="#cb18-172" tabindex="-1"></a><span class="co">#&gt; [109] DBI_1.3.0                               </span></span>
+<span id="cb18-173"><a href="#cb18-173" tabindex="-1"></a><span class="co">#&gt; [110] nnet_7.3-19                             </span></span>
+<span id="cb18-174"><a href="#cb18-174" tabindex="-1"></a><span class="co">#&gt; [111] tidyselect_1.2.1                        </span></span>
+<span id="cb18-175"><a href="#cb18-175" tabindex="-1"></a><span class="co">#&gt; [112] bit_4.6.0                               </span></span>
+<span id="cb18-176"><a href="#cb18-176" tabindex="-1"></a><span class="co">#&gt; [113] compiler_4.4.2                          </span></span>
+<span id="cb18-177"><a href="#cb18-177" tabindex="-1"></a><span class="co">#&gt; [114] curl_7.1.0                              </span></span>
+<span id="cb18-178"><a href="#cb18-178" tabindex="-1"></a><span class="co">#&gt; [115] httr2_1.2.2                             </span></span>
+<span id="cb18-179"><a href="#cb18-179" tabindex="-1"></a><span class="co">#&gt; [116] xml2_1.5.2                              </span></span>
+<span id="cb18-180"><a href="#cb18-180" tabindex="-1"></a><span class="co">#&gt; [117] fontBitstreamVera_0.1.1                 </span></span>
+<span id="cb18-181"><a href="#cb18-181" tabindex="-1"></a><span class="co">#&gt; [118] DelayedArray_0.30.1                     </span></span>
+<span id="cb18-182"><a href="#cb18-182" tabindex="-1"></a><span class="co">#&gt; [119] shadowtext_0.1.6                        </span></span>
+<span id="cb18-183"><a href="#cb18-183" tabindex="-1"></a><span class="co">#&gt; [120] scales_1.4.0                            </span></span>
+<span id="cb18-184"><a href="#cb18-184" tabindex="-1"></a><span class="co">#&gt; [121] caTools_1.18.3                          </span></span>
+<span id="cb18-185"><a href="#cb18-185" tabindex="-1"></a><span class="co">#&gt; [122] ChIPseeker_1.40.0                       </span></span>
+<span id="cb18-186"><a href="#cb18-186" tabindex="-1"></a><span class="co">#&gt; [123] quadprog_1.5-8                          </span></span>
+<span id="cb18-187"><a href="#cb18-187" tabindex="-1"></a><span class="co">#&gt; [124] rappdirs_0.3.4                          </span></span>
+<span id="cb18-188"><a href="#cb18-188" tabindex="-1"></a><span class="co">#&gt; [125] stringr_1.6.0                           </span></span>
+<span id="cb18-189"><a href="#cb18-189" tabindex="-1"></a><span class="co">#&gt; [126] digest_0.6.39                           </span></span>
+<span id="cb18-190"><a href="#cb18-190" tabindex="-1"></a><span class="co">#&gt; [127] rmarkdown_2.31                          </span></span>
+<span id="cb18-191"><a href="#cb18-191" tabindex="-1"></a><span class="co">#&gt; [128] GEOquery_2.72.0                         </span></span>
+<span id="cb18-192"><a href="#cb18-192" tabindex="-1"></a><span class="co">#&gt; [129] htmltools_0.5.9                         </span></span>
+<span id="cb18-193"><a href="#cb18-193" tabindex="-1"></a><span class="co">#&gt; [130] pkgconfig_2.0.3                         </span></span>
+<span id="cb18-194"><a href="#cb18-194" tabindex="-1"></a><span class="co">#&gt; [131] sparseMatrixStats_1.16.0                </span></span>
+<span id="cb18-195"><a href="#cb18-195" tabindex="-1"></a><span class="co">#&gt; [132] dbplyr_2.5.2                            </span></span>
+<span id="cb18-196"><a href="#cb18-196" tabindex="-1"></a><span class="co">#&gt; [133] fastmap_1.2.0                           </span></span>
+<span id="cb18-197"><a href="#cb18-197" tabindex="-1"></a><span class="co">#&gt; [134] rlang_1.2.0                             </span></span>
+<span id="cb18-198"><a href="#cb18-198" tabindex="-1"></a><span class="co">#&gt; [135] htmlwidgets_1.6.4                       </span></span>
+<span id="cb18-199"><a href="#cb18-199" tabindex="-1"></a><span class="co">#&gt; [136] UCSC.utils_1.0.0                        </span></span>
+<span id="cb18-200"><a href="#cb18-200" tabindex="-1"></a><span class="co">#&gt; [137] DelayedMatrixStats_1.26.0               </span></span>
+<span id="cb18-201"><a href="#cb18-201" tabindex="-1"></a><span class="co">#&gt; [138] farver_2.1.2                            </span></span>
+<span id="cb18-202"><a href="#cb18-202" tabindex="-1"></a><span class="co">#&gt; [139] jquerylib_0.1.4                         </span></span>
+<span id="cb18-203"><a href="#cb18-203" tabindex="-1"></a><span class="co">#&gt; [140] jsonlite_2.0.0                          </span></span>
+<span id="cb18-204"><a href="#cb18-204" tabindex="-1"></a><span class="co">#&gt; [141] mclust_6.1.2                            </span></span>
+<span id="cb18-205"><a href="#cb18-205" tabindex="-1"></a><span class="co">#&gt; [142] BiocParallel_1.38.0                     </span></span>
+<span id="cb18-206"><a href="#cb18-206" tabindex="-1"></a><span class="co">#&gt; [143] ModelMetrics_1.2.2.2                    </span></span>
+<span id="cb18-207"><a href="#cb18-207" tabindex="-1"></a><span class="co">#&gt; [144] GOSemSim_2.30.2                         </span></span>
+<span id="cb18-208"><a href="#cb18-208" tabindex="-1"></a><span class="co">#&gt; [145] R.oo_1.27.1                             </span></span>
+<span id="cb18-209"><a href="#cb18-209" tabindex="-1"></a><span class="co">#&gt; [146] RCurl_1.98-1.18                         </span></span>
+<span id="cb18-210"><a href="#cb18-210" tabindex="-1"></a><span class="co">#&gt; [147] magrittr_2.0.5                          </span></span>
+<span id="cb18-211"><a href="#cb18-211" tabindex="-1"></a><span class="co">#&gt; [148] GenomeInfoDbData_1.2.12                 </span></span>
+<span id="cb18-212"><a href="#cb18-212" tabindex="-1"></a><span class="co">#&gt; [149] ggplotify_0.1.3                         </span></span>
+<span id="cb18-213"><a href="#cb18-213" tabindex="-1"></a><span class="co">#&gt; [150] patchwork_1.3.2                         </span></span>
+<span id="cb18-214"><a href="#cb18-214" tabindex="-1"></a><span class="co">#&gt; [151] Rhdf5lib_1.26.0                         </span></span>
+<span id="cb18-215"><a href="#cb18-215" tabindex="-1"></a><span class="co">#&gt; [152] Rcpp_1.1.1-1.1                          </span></span>
+<span id="cb18-216"><a href="#cb18-216" tabindex="-1"></a><span class="co">#&gt; [153] ape_5.8-1                               </span></span>
+<span id="cb18-217"><a href="#cb18-217" tabindex="-1"></a><span class="co">#&gt; [154] viridis_0.6.5                           </span></span>
+<span id="cb18-218"><a href="#cb18-218" tabindex="-1"></a><span class="co">#&gt; [155] gdtools_0.5.1                           </span></span>
+<span id="cb18-219"><a href="#cb18-219" tabindex="-1"></a><span class="co">#&gt; [156] pROC_1.19.0.1                           </span></span>
+<span id="cb18-220"><a href="#cb18-220" tabindex="-1"></a><span class="co">#&gt; [157] stringi_1.8.7                           </span></span>
+<span id="cb18-221"><a href="#cb18-221" tabindex="-1"></a><span class="co">#&gt; [158] ggraph_2.2.2                            </span></span>
+<span id="cb18-222"><a href="#cb18-222" tabindex="-1"></a><span class="co">#&gt; [159] zlibbioc_1.50.0                         </span></span>
+<span id="cb18-223"><a href="#cb18-223" tabindex="-1"></a><span class="co">#&gt; [160] MASS_7.3-60.0.1                         </span></span>
+<span id="cb18-224"><a href="#cb18-224" tabindex="-1"></a><span class="co">#&gt; [161] AnnotationHub_3.12.0                    </span></span>
+<span id="cb18-225"><a href="#cb18-225" tabindex="-1"></a><span class="co">#&gt; [162] plyr_1.8.9                              </span></span>
+<span id="cb18-226"><a href="#cb18-226" tabindex="-1"></a><span class="co">#&gt; [163] listenv_0.10.1                          </span></span>
+<span id="cb18-227"><a href="#cb18-227" tabindex="-1"></a><span class="co">#&gt; [164] ggrepel_0.9.8                           </span></span>
+<span id="cb18-228"><a href="#cb18-228" tabindex="-1"></a><span class="co">#&gt; [165] graphlayouts_1.2.3                      </span></span>
+<span id="cb18-229"><a href="#cb18-229" tabindex="-1"></a><span class="co">#&gt; [166] splines_4.4.2                           </span></span>
+<span id="cb18-230"><a href="#cb18-230" tabindex="-1"></a><span class="co">#&gt; [167] multtest_2.60.0                         </span></span>
+<span id="cb18-231"><a href="#cb18-231" tabindex="-1"></a><span class="co">#&gt; [168] hms_1.1.4                               </span></span>
+<span id="cb18-232"><a href="#cb18-232" tabindex="-1"></a><span class="co">#&gt; [169] BSgenome.Hsapiens.UCSC.hg38_1.4.5       </span></span>
+<span id="cb18-233"><a href="#cb18-233" tabindex="-1"></a><span class="co">#&gt; [170] igraph_2.1.4                            </span></span>
+<span id="cb18-234"><a href="#cb18-234" tabindex="-1"></a><span class="co">#&gt; [171] rngtools_1.5.2                          </span></span>
+<span id="cb18-235"><a href="#cb18-235" tabindex="-1"></a><span class="co">#&gt; [172] reshape2_1.4.5                          </span></span>
+<span id="cb18-236"><a href="#cb18-236" tabindex="-1"></a><span class="co">#&gt; [173] BiocVersion_3.19.1                      </span></span>
+<span id="cb18-237"><a href="#cb18-237" tabindex="-1"></a><span class="co">#&gt; [174] XML_3.99-0.23                           </span></span>
+<span id="cb18-238"><a href="#cb18-238" tabindex="-1"></a><span class="co">#&gt; [175] evaluate_1.0.5                          </span></span>
+<span id="cb18-239"><a href="#cb18-239" tabindex="-1"></a><span class="co">#&gt; [176] BiocManager_1.30.27                     </span></span>
+<span id="cb18-240"><a href="#cb18-240" tabindex="-1"></a><span class="co">#&gt; [177] tzdb_0.5.0                              </span></span>
+<span id="cb18-241"><a href="#cb18-241" tabindex="-1"></a><span class="co">#&gt; [178] tweenr_2.0.3                            </span></span>
+<span id="cb18-242"><a href="#cb18-242" tabindex="-1"></a><span class="co">#&gt; [179] openssl_2.4.1                           </span></span>
+<span id="cb18-243"><a href="#cb18-243" tabindex="-1"></a><span class="co">#&gt; [180] tidyr_1.3.2                             </span></span>
+<span id="cb18-244"><a href="#cb18-244" tabindex="-1"></a><span class="co">#&gt; [181] purrr_1.2.2                             </span></span>
+<span id="cb18-245"><a href="#cb18-245" tabindex="-1"></a><span class="co">#&gt; [182] polyclip_1.10-7                         </span></span>
+<span id="cb18-246"><a href="#cb18-246" tabindex="-1"></a><span class="co">#&gt; [183] reshape_0.8.10                          </span></span>
+<span id="cb18-247"><a href="#cb18-247" tabindex="-1"></a><span class="co">#&gt; [184] future_1.70.0                           </span></span>
+<span id="cb18-248"><a href="#cb18-248" tabindex="-1"></a><span class="co">#&gt; [185] ggforce_0.5.0                           </span></span>
+<span id="cb18-249"><a href="#cb18-249" tabindex="-1"></a><span class="co">#&gt; [186] xtable_1.8-8                            </span></span>
+<span id="cb18-250"><a href="#cb18-250" tabindex="-1"></a><span class="co">#&gt; [187] restfulr_0.0.16                         </span></span>
+<span id="cb18-251"><a href="#cb18-251" tabindex="-1"></a><span class="co">#&gt; [188] tidytree_0.4.7                          </span></span>
+<span id="cb18-252"><a href="#cb18-252" tabindex="-1"></a><span class="co">#&gt; [189] viridisLite_0.4.3                       </span></span>
+<span id="cb18-253"><a href="#cb18-253" tabindex="-1"></a><span class="co">#&gt; [190] class_7.3-22                            </span></span>
+<span id="cb18-254"><a href="#cb18-254" tabindex="-1"></a><span class="co">#&gt; [191] TxDb.Hsapiens.UCSC.hg38.knownGene_3.18.0</span></span>
+<span id="cb18-255"><a href="#cb18-255" tabindex="-1"></a><span class="co">#&gt; [192] tibble_3.3.1                            </span></span>
+<span id="cb18-256"><a href="#cb18-256" tabindex="-1"></a><span class="co">#&gt; [193] clusterProfiler_4.12.6                  </span></span>
+<span id="cb18-257"><a href="#cb18-257" tabindex="-1"></a><span class="co">#&gt; [194] aplot_0.2.9                             </span></span>
+<span id="cb18-258"><a href="#cb18-258" tabindex="-1"></a><span class="co">#&gt; [195] memoise_2.0.1                           </span></span>
+<span id="cb18-259"><a href="#cb18-259" tabindex="-1"></a><span class="co">#&gt; [196] GenomicAlignments_1.40.0                </span></span>
+<span id="cb18-260"><a href="#cb18-260" tabindex="-1"></a><span class="co">#&gt; [197] timechange_0.4.0                        </span></span>
+<span id="cb18-261"><a href="#cb18-261" tabindex="-1"></a><span class="co">#&gt; [198] globals_0.19.1</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
