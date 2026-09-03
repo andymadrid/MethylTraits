@@ -16,7 +16,7 @@ As such, this R packages seeks to bridge that gap by allowing those array-based 
 ## Vignette
 
 Check out the tutorial of the general functionality of the package at:
-http://htmlpreview.github.io/?https://raw.githubusercontent.com/andymadrid/oliveR/refs/heads/main/vignettes/introduction.html
+[Here](https://htmlpreview.github.io/?https://raw.githubusercontent.com/andymadrid/MethylTraits/refs/heads/main/inst/doc/MethylTraits.html)
 
 ## Stochastic epigenetic mutations (SEMs)
 
